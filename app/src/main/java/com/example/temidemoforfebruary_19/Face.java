@@ -7,6 +7,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.util.Log;
 import android.widget.ImageView;
 
+import static com.example.temidemoforfebruary_19.Mood.HAPPY;
 import static com.example.temidemoforfebruary_19.TransitionDemo.handler;
 
 import java.util.Random;
@@ -69,7 +70,7 @@ public class Face {
     //Constructors
     public Face(Activity activity){
         setActivity(activity);
-        setMood(Mood.NEUTRAL);
+        setMood(HAPPY);
 
         setAllResources();
         setAllImageViews();
@@ -195,7 +196,7 @@ public class Face {
             imageView[LEFT_EYE].setBackgroundResource(resource[LEFT_EYE]);
             imageView[RIGHT_EYE].setBackgroundResource(resource[RIGHT_EYE]);
 
-            if (this.mood.equals(Mood.NEUTRAL) || this.mood.equals(Mood.HAPPY)) {
+            if (this.mood.equals(Mood.NEUTRAL) || this.mood.equals(HAPPY)) {
                 imageView[LEFT_EYE].setBackgroundResource(R.drawable.blink_normal);
                 imageView[RIGHT_EYE].setBackgroundResource(R.drawable.blink_normal);
             } else if (this.mood.equals(Mood.AFRAID) || this.mood.equals(Mood.SURPRISE)) {
@@ -207,6 +208,50 @@ public class Face {
             } else if (this.mood.equals((Mood.SADNESS))) {
                 imageView[LEFT_EYE].setBackgroundResource(R.drawable.blink_sad);
                 imageView[RIGHT_EYE].setBackgroundResource(R.drawable.blink_sad);
+            }
+        }catch (Exception e){
+            Log.e("Face", "resetColor: " + e.toString() );
+        }
+
+        try{
+            facialAnimation[LEFT_EYE] = (AnimationDrawable) imageView[LEFT_EYE].getBackground();
+            facialAnimation[RIGHT_EYE] = (AnimationDrawable) imageView[RIGHT_EYE].getBackground();
+
+            imageView[LEFT_EYE].setBackground(facialAnimation[LEFT_EYE]);
+            imageView[RIGHT_EYE].setBackground(facialAnimation[RIGHT_EYE]);
+
+            facialAnimation[LEFT_EYE].setOneShot(true);
+            facialAnimation[RIGHT_EYE].setOneShot(true);
+
+            facialAnimation[LEFT_EYE].setVisible(true, true);
+            facialAnimation[RIGHT_EYE].setVisible(true, true);
+
+            facialAnimation[LEFT_EYE].start();
+            facialAnimation[RIGHT_EYE].start();
+        }catch(Exception e){
+            Log.i("Face ->", "blink: Face did not blink");
+        }
+
+        resetColor();
+    }//End of blink()...
+
+    private void lookUpAndDown(){
+        try {
+            imageView[LEFT_EYE].setBackgroundResource(resource[LEFT_EYE]);
+            imageView[RIGHT_EYE].setBackgroundResource(resource[RIGHT_EYE]);
+
+            if (this.mood.equals(Mood.NEUTRAL) || this.mood.equals(HAPPY)) {
+                imageView[LEFT_EYE].setBackgroundResource(R.drawable.lookupdown);
+                imageView[RIGHT_EYE].setBackgroundResource(R.drawable.lookupdown);
+            } else if (this.mood.equals(Mood.AFRAID) || this.mood.equals(Mood.SURPRISE)) {
+                imageView[LEFT_EYE].setBackgroundResource(R.drawable.lookupdown);
+                imageView[RIGHT_EYE].setBackgroundResource(R.drawable.lookupdown);
+            } else if (this.mood.equals(Mood.ANGER) || this.mood.equals(Mood.TIRED)) {
+                imageView[LEFT_EYE].setBackgroundResource(R.drawable.lookupdown);
+                imageView[RIGHT_EYE].setBackgroundResource(R.drawable.lookupdown);
+            } else if (this.mood.equals((Mood.SADNESS))) {
+                imageView[LEFT_EYE].setBackgroundResource(R.drawable.lookupdown);
+                imageView[RIGHT_EYE].setBackgroundResource(R.drawable.lookupdown);
             }
         }catch (Exception e){
             Log.e("Face", "resetColor: " + e.toString() );
@@ -320,6 +365,10 @@ public class Face {
     }
     public void changeToBlink(){
         blink();
+    }
+
+    public void changeToLookUpAndDown(){
+        lookUpAndDown();
     }
 
     protected void setEyesToNoPupils(){

@@ -10,6 +10,15 @@ import android.view.View;
 import com.robotemi.sdk.Robot;
 import com.robotemi.sdk.TtsRequest;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import kotlin.Triple;
+
 public class TransitionStart extends TransitionDemo {
     /**TransitionStart is another class that extends the TransitionDemo.
      * It doesn't use any Transitions, but it will be the start page
@@ -34,11 +43,44 @@ public class TransitionStart extends TransitionDemo {
 
         faceFragmentFrame.setOnClickListener(v -> {
             numClicks++;
-            if(face != null){
-                face.changeToBlink();
-            }
-            if(numClicks%5 == 0){
-                robot.speak(TtsRequest.create("Hold down to use the transition options", false));
+            if(face != null) {
+
+                face.changeToLookUpAndDown();
+                // interaction queue that contains wait-time, speech, and index tuples
+                final Queue<Triple<Long, String, Integer>> queue = new LinkedList<>();
+
+                // interaction model goes below
+                queue.add(new Triple<>( 0L,
+                        "Hi, my name is TEMI. I will be your art friend today. I love your outfit by the way. What's your name?",
+                        0
+                ));
+                queue.add(new Triple<>(2000L,
+                        "Johnny. Did I get that right?",
+                        1
+                ));
+                queue.add(new Triple<>(1000L,
+                        "Johnny is such a lovely name! Let’s make some art. What do you want to draw today?",
+                        2
+                ));
+                // TODO: keep adding
+
+                robot.addTtsListener(ttsRequest -> {
+                    if (ttsRequest.getStatus() == TtsRequest.Status.COMPLETED) {
+                        if (!queue.isEmpty()) {
+                            Triple<Long, String, Integer> cur = queue.remove();
+                            new Timer().schedule(new TimerTask() {
+                                @Override
+                                public void run() {
+                                    robot.speak(TtsRequest.create(cur.getSecond(), false));
+                                }
+                            }, cur.getFirst());
+                        }
+                    }
+                });
+
+                Triple<Long, String, Integer> first = queue.remove();
+                robot.speak(TtsRequest.create(first.getSecond(), false));
+
             }
         });
     }

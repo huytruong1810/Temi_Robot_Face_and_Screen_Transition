@@ -23,6 +23,7 @@ import com.robotemi.sdk.TtsRequest;
 import com.robotemi.sdk.activitystream.ActivityStreamPublishMessage;
 import com.robotemi.sdk.listeners.OnBeWithMeStatusChangedListener;
 import com.robotemi.sdk.listeners.OnConstraintBeWithStatusChangedListener;
+import com.robotemi.sdk.listeners.OnConversationStatusChangedListener;
 import com.robotemi.sdk.listeners.OnDetectionStateChangedListener;
 import com.robotemi.sdk.listeners.OnGoToLocationStatusChangedListener;
 import com.robotemi.sdk.listeners.OnLocationsUpdatedListener;
@@ -30,11 +31,13 @@ import com.robotemi.sdk.listeners.OnRobotReadyListener;
 
 
 import java.util.List;
+import java.util.Objects;
 
 
 public abstract class TransitionDemo extends AppCompatActivity implements
         Robot.NlpListener,
         OnRobotReadyListener,
+        OnConversationStatusChangedListener,
         Robot.ConversationViewAttachesListener,
         Robot.WakeupWordListener,
         Robot.ActivityStreamPublishListener,
@@ -92,6 +95,9 @@ public abstract class TransitionDemo extends AppCompatActivity implements
         Robot.getInstance().addWakeupWordListener(this);
         Robot.getInstance().addTtsListener(this);
         Robot.getInstance().addOnLocationsUpdatedListener(this);
+
+        // TODO: added on Sat 11/11/2023 to see if TEMI listens to user
+        Robot.getInstance().addAsrListener(this);
 
         /*Since the imageViews on the fragment aren't created in the Activity Lifecycle
         * until you get to onStart(), it is better to instantiate the face in the onStart()
@@ -183,6 +189,10 @@ public abstract class TransitionDemo extends AppCompatActivity implements
     @Override
     public void onTtsStatusChanged(TtsRequest ttsRequest) {
         // Do whatever you like upon the status changing. after the robot finishes speaking
+    }
+    @Override
+    public void onConversationStatusChanged(int status, @NonNull String text) {
+
     }
     @Override
     public void onBeWithMeStatusChanged(String status) {
