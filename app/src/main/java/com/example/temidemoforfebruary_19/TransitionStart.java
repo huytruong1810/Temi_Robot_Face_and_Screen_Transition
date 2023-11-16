@@ -20,6 +20,20 @@ import java.util.TimerTask;
 import kotlin.Triple;
 
 public class TransitionStart extends TransitionDemo {
+    
+    static class TemiOutput {
+        public long waitTime;
+        public String speech;
+        public boolean listening;
+        public boolean showImage;
+        public TemiOutput(long waitTime, String speech, boolean listening, boolean showImage) {
+            this.waitTime = waitTime;
+            this.speech = speech;
+            this.listening = listening;
+            this.showImage = showImage;
+        }
+    }
+    
     /**TransitionStart is another class that extends the TransitionDemo.
      * It doesn't use any Transitions, but it will be the start page
      * to the app that when you hold down on the screen, it will
@@ -30,6 +44,88 @@ public class TransitionStart extends TransitionDemo {
      */
     //Data Member
     int numClicks = 0;
+
+    private void insertGreeting(final Queue<TemiOutput> queue) {
+        // *Child enters the room*
+        // *Temi reacts by acknowledging the child by looking up and down and greeting”
+        queue.add(new TemiOutput(0L,
+                "Hi, my name is TEMI.",
+                false, false
+        ));
+        queue.add(new TemiOutput(150L,
+                "I will be your art friend today.",
+                false, false
+        ));
+        queue.add(new TemiOutput(150L,
+                "I love your outfit by the way. What's your name?",
+                true, false
+        ));
+        // Johnny: *Tells the name* Johnny.
+        queue.add(new TemiOutput(2000L,
+                "Johnny.",
+                false, false
+        ));
+        queue.add(new TemiOutput(150L,
+                "Did I get that right?",
+                true, false
+        ));
+        // Johnny: yes!
+        queue.add(new TemiOutput(1000L,
+                "Johnny is such a lovely name!",
+                false, false
+        ));
+        queue.add(new TemiOutput(150L,
+                "Let’s make some art.",
+                false, false
+        ));
+        queue.add(new TemiOutput(150L,
+                "What do you want to draw today?",
+                true, false
+        ));
+    }
+
+    private void insertTellJoke(final Queue<TemiOutput> queue) {
+        queue.add(new TemiOutput(0L,
+                "Johnny, do you like jokes?",
+                true, false
+        ));
+        // Johnny: yes!
+        queue.add(new TemiOutput(1000L,
+                "Why can’t you tell an egg a joke?",
+                false, false
+        ));
+        queue.add(new TemiOutput(150L,
+                "It’ll crack up!",
+                false, false
+        ));
+    }
+
+    private void insertAskRandomQuestion(final Queue<TemiOutput> queue) {
+        // Johnny: Hey Temi, whats your favourite color?
+        queue.add(new TemiOutput(0L,
+                "I don’t have one favourite color, I love all the colors.",
+                false, false
+        ));
+        queue.add(new TemiOutput(150L,
+                "What’s your favourite color, Johnny?",
+                true, false
+        ));
+        // Johnny: Pink and purple!
+        queue.add(new TemiOutput(2000L,
+                "Lovely!",
+                false, false
+        ));
+    }
+
+    private void insertArtRevision(final Queue<TemiOutput> queue) {
+        // *Temi draws an image of a butterfly*
+        // Johnny: No, I want to draw flowers!
+        queue.add(new TemiOutput(0L,
+                "Okay! I will help you draw flowers.",
+                false, true
+        ));
+        // *Temi draws an image of flowers”
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,39 +143,33 @@ public class TransitionStart extends TransitionDemo {
 
                 face.changeToLookUpAndDown();
                 // interaction queue that contains wait-time, speech, and index tuples
-                final Queue<Triple<Long, String, Integer>> queue = new LinkedList<>();
+                final Queue<TemiOutput> queue = new LinkedList<>();
 
                 // interaction model goes below
-                queue.add(new Triple<>( 0L,
-                        "Hi, my name is TEMI. I will be your art friend today. I love your outfit by the way. What's your name?",
-                        0
-                ));
-                queue.add(new Triple<>(2000L,
-                        "Johnny. Did I get that right?",
-                        1
-                ));
-                queue.add(new Triple<>(1000L,
-                        "Johnny is such a lovely name! Let’s make some art. What do you want to draw today?",
-                        2
-                ));
-                // TODO: keep adding
+                insertGreeting(queue);
+                insertTellJoke(queue);
+                insertAskRandomQuestion(queue);
+                insertArtRevision(queue);
 
                 robot.addTtsListener(ttsRequest -> {
                     if (ttsRequest.getStatus() == TtsRequest.Status.COMPLETED) {
                         if (!queue.isEmpty()) {
-                            Triple<Long, String, Integer> cur = queue.remove();
+                            TemiOutput temiOutput = queue.remove();
                             new Timer().schedule(new TimerTask() {
                                 @Override
                                 public void run() {
-                                    robot.speak(TtsRequest.create(cur.getSecond(), false));
+                                    robot.speak(TtsRequest.create(temiOutput.speech, false));
+                                    if (temiOutput.listening) { // TODO: not working, cause crashed app on TEMI
+                                        face.changeFaceTo(Mood.LISTENING);
+                                    }
                                 }
-                            }, cur.getFirst());
+                            }, temiOutput.waitTime);
                         }
                     }
                 });
 
-                Triple<Long, String, Integer> first = queue.remove();
-                robot.speak(TtsRequest.create(first.getSecond(), false));
+                TemiOutput first = queue.remove();
+                robot.speak(TtsRequest.create(first.speech, false));
 
             }
         });

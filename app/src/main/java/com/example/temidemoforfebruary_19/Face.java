@@ -8,6 +8,7 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import static com.example.temidemoforfebruary_19.Mood.HAPPY;
+import static com.example.temidemoforfebruary_19.Mood.LISTENING;
 import static com.example.temidemoforfebruary_19.TransitionDemo.handler;
 
 import java.util.Random;
@@ -196,7 +197,7 @@ public class Face {
             imageView[LEFT_EYE].setBackgroundResource(resource[LEFT_EYE]);
             imageView[RIGHT_EYE].setBackgroundResource(resource[RIGHT_EYE]);
 
-            if (this.mood.equals(Mood.NEUTRAL) || this.mood.equals(HAPPY)) {
+            if (this.mood.equals(Mood.NEUTRAL) || this.mood.equals(HAPPY) || this.mood.equals(LISTENING)) {
                 imageView[LEFT_EYE].setBackgroundResource(R.drawable.blink_normal);
                 imageView[RIGHT_EYE].setBackgroundResource(R.drawable.blink_normal);
             } else if (this.mood.equals(Mood.AFRAID) || this.mood.equals(Mood.SURPRISE)) {
@@ -240,7 +241,7 @@ public class Face {
             imageView[LEFT_EYE].setBackgroundResource(resource[LEFT_EYE]);
             imageView[RIGHT_EYE].setBackgroundResource(resource[RIGHT_EYE]);
 
-            if (this.mood.equals(Mood.NEUTRAL) || this.mood.equals(HAPPY)) {
+            if (this.mood.equals(Mood.NEUTRAL) || this.mood.equals(HAPPY) || this.mood.equals(LISTENING)) {
                 imageView[LEFT_EYE].setBackgroundResource(R.drawable.lookupdown);
                 imageView[RIGHT_EYE].setBackgroundResource(R.drawable.lookupdown);
             } else if (this.mood.equals(Mood.AFRAID) || this.mood.equals(Mood.SURPRISE)) {
@@ -378,6 +379,7 @@ public class Face {
         //replace the resources to the ones without pupils
         switch (mood){
             case NEUTRAL:
+            case LISTENING:
             case HAPPY:
             case AFRAID:
             case SURPRISE:
@@ -400,6 +402,7 @@ public class Face {
         //replace the resources to the ones with pupils
         switch (mood) {
             case NEUTRAL:
+            case LISTENING:
             case HAPPY:
                 imageView[LEFT_EYE].setBackgroundResource(R.drawable.normal_eye0000);
                 imageView[RIGHT_EYE].setBackgroundResource(R.drawable.normal_eye0000);
