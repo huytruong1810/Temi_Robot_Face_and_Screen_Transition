@@ -1,5 +1,7 @@
 package com.example.temidemoforfebruary_19;
 
+import static com.example.temidemoforfebruary_19.Mood.HAPPY;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -52,12 +54,16 @@ public class TransitionStart extends TransitionDemo {
                 "Hi, my name is TEMI.",
                 false, false
         ));
-        queue.add(new TemiOutput(150L,
+        queue.add(new TemiOutput(300L,
                 "I will be your art friend today.",
                 false, false
         ));
-        queue.add(new TemiOutput(150L,
-                "I love your outfit by the way. What's your name?",
+        queue.add(new TemiOutput(300L,
+                "I love your outfit by the way.",
+                false, false
+        ));
+        queue.add(new TemiOutput(300L,
+                "What's your name?",
                 true, false
         ));
         // Johnny: *Tells the name* Johnny.
@@ -65,36 +71,40 @@ public class TransitionStart extends TransitionDemo {
                 "Johnny.",
                 false, false
         ));
-        queue.add(new TemiOutput(150L,
+        queue.add(new TemiOutput(300L,
                 "Did I get that right?",
                 true, false
         ));
         // Johnny: yes!
-        queue.add(new TemiOutput(1000L,
+        queue.add(new TemiOutput(2000L,
                 "Johnny is such a lovely name!",
                 false, false
         ));
-        queue.add(new TemiOutput(150L,
+        queue.add(new TemiOutput(300L,
                 "Let’s make some art.",
                 false, false
         ));
-        queue.add(new TemiOutput(150L,
+        queue.add(new TemiOutput(300L,
                 "What do you want to draw today?",
                 true, false
+        ));
+        queue.add(new TemiOutput(2000L,
+                "Yup!",
+                false, false
         ));
     }
 
     private void insertTellJoke(final Queue<TemiOutput> queue) {
         queue.add(new TemiOutput(0L,
                 "Johnny, do you like jokes?",
-                true, false
-        ));
-        // Johnny: yes!
-        queue.add(new TemiOutput(1000L,
-                "Why can’t you tell an egg a joke?",
                 false, false
         ));
-        queue.add(new TemiOutput(150L,
+        // Johnny: yes!
+        queue.add(new TemiOutput(2000L,
+                "Why can’t you tell an egg a joke?",
+                true, false
+        ));
+        queue.add(new TemiOutput(300L,
                 "It’ll crack up!",
                 false, false
         ));
@@ -106,14 +116,14 @@ public class TransitionStart extends TransitionDemo {
                 "I don’t have one favourite color, I love all the colors.",
                 false, false
         ));
-        queue.add(new TemiOutput(150L,
+        queue.add(new TemiOutput(300L,
                 "What’s your favourite color, Johnny?",
-                true, false
+                false, false
         ));
         // Johnny: Pink and purple!
         queue.add(new TemiOutput(2000L,
                 "Lovely!",
-                false, false
+                true, false
         ));
     }
 
@@ -125,6 +135,10 @@ public class TransitionStart extends TransitionDemo {
                 false, true
         ));
         // *Temi draws an image of flowers”
+        queue.add(new TemiOutput(2000L,
+                "What do you think?",
+                true, false
+        ));
     }
 
     @Override
@@ -141,29 +155,29 @@ public class TransitionStart extends TransitionDemo {
             numClicks++;
             if(face != null) {
 
-                face.changeToLookUpAndDown();
+                face.lookUpAndDown();
                 // interaction queue that contains wait-time, speech, and index tuples
                 final Queue<TemiOutput> queue = new LinkedList<>();
 
                 // interaction model goes below
-                insertGreeting(queue);
-                insertTellJoke(queue);
-                insertAskRandomQuestion(queue);
+//                insertGreeting(queue);
+//                insertTellJoke(queue);
+//                insertAskRandomQuestion(queue);
                 insertArtRevision(queue);
 
                 robot.addTtsListener(ttsRequest -> {
                     if (ttsRequest.getStatus() == TtsRequest.Status.COMPLETED) {
                         if (!queue.isEmpty()) {
                             TemiOutput temiOutput = queue.remove();
-                            new Timer().schedule(new TimerTask() {
-                                @Override
-                                public void run() {
-                                    robot.speak(TtsRequest.create(temiOutput.speech, false));
-                                    if (temiOutput.listening) { // TODO: not working, cause crashed app on TEMI
-                                        face.changeFaceTo(Mood.LISTENING);
-                                    }
-                                }
-                            }, temiOutput.waitTime);
+                            if (temiOutput.listening) face.listening(); // face making
+                            else face.setFace(HAPPY);
+                            if (temiOutput.showImage) face.setDrawnImage();
+                            try { // waiting
+                                Thread.sleep(temiOutput.waitTime);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                            robot.speak(TtsRequest.create(temiOutput.speech, false)); // speaking
                         }
                     }
                 });

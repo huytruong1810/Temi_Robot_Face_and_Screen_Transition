@@ -3,18 +3,18 @@
 
     <item
         android:drawable="@drawable/normal_eye0000"
-        android:duration="3500"/>
+        android:duration="4000"/>
     <item
         android:drawable="@drawable/lookup_eye0000"
-        android:duration="400"/>
+        android:duration="200"/>
     <item
         android:drawable="@drawable/normal_eye0000"
-        android:duration="100"/>
+        android:duration="200"/>
     <item
         android:drawable="@drawable/lookdown_eye0000"
-        android:duration="400"/>
+        android:duration="200"/>
     <item
         android:drawable="@drawable/normal_eye0000"
-        android:duration="100"/>
+        android:duration="200"/>
 
 </animation-list>

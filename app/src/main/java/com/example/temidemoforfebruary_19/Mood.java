@@ -10,8 +10,8 @@ public enum Mood {
             R.drawable.normal_eye0000, R.drawable.normal_eye0000,
             R.drawable.normal_mouth_0000),
 
-    LISTENING(R.drawable.rise_eyebrow_l_0003, R.drawable.rise_eyebrow_r_0005,
-            R.drawable.sad_eye0000, R.drawable.normal_eye0000,
+    LISTENING(R.drawable.raise_eyebrow_0003, R.drawable.rise_eyebrow_r_0005,
+            R.drawable.angry_tired_eye0000, R.drawable.normal_eye0000,
             R.drawable.surprise_mouth_0003),
 
     HAPPY(R.drawable.raise_eyebrow_0003, R.drawable.raise_eyebrow_0003,

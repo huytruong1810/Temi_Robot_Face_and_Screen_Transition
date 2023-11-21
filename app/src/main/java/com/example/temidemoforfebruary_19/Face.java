@@ -86,7 +86,7 @@ public class Face {
         changeColorTo(this.baseColor);
 
         //After setting up everything, simulate the "randomized" blinking
-        startWaitingToBlink();
+//        startWaitingToBlink();
     }
 
     //Getters and setters for private data members that you'll most likely want to use outside the face class
@@ -156,7 +156,7 @@ public class Face {
     * get the mood the user wishes to change their expression to
     * along with the intensity of that mood, and animate the face
     */
-    private void setFace(Mood mood){
+    public void setFace(Mood mood){
         //check if face is already in that mood before animating it
         if(this.mood.equals(mood)){
             return;
@@ -193,6 +193,7 @@ public class Face {
     * to make them blink.
     */
     private void blink(){
+        setFace(HAPPY);
         try {
             imageView[LEFT_EYE].setBackgroundResource(resource[LEFT_EYE]);
             imageView[RIGHT_EYE].setBackgroundResource(resource[RIGHT_EYE]);
@@ -236,24 +237,12 @@ public class Face {
         resetColor();
     }//End of blink()...
 
-    private void lookUpAndDown(){
+    public void lookUpAndDown(){
         try {
             imageView[LEFT_EYE].setBackgroundResource(resource[LEFT_EYE]);
             imageView[RIGHT_EYE].setBackgroundResource(resource[RIGHT_EYE]);
-
-            if (this.mood.equals(Mood.NEUTRAL) || this.mood.equals(HAPPY) || this.mood.equals(LISTENING)) {
-                imageView[LEFT_EYE].setBackgroundResource(R.drawable.lookupdown);
-                imageView[RIGHT_EYE].setBackgroundResource(R.drawable.lookupdown);
-            } else if (this.mood.equals(Mood.AFRAID) || this.mood.equals(Mood.SURPRISE)) {
-                imageView[LEFT_EYE].setBackgroundResource(R.drawable.lookupdown);
-                imageView[RIGHT_EYE].setBackgroundResource(R.drawable.lookupdown);
-            } else if (this.mood.equals(Mood.ANGER) || this.mood.equals(Mood.TIRED)) {
-                imageView[LEFT_EYE].setBackgroundResource(R.drawable.lookupdown);
-                imageView[RIGHT_EYE].setBackgroundResource(R.drawable.lookupdown);
-            } else if (this.mood.equals((Mood.SADNESS))) {
-                imageView[LEFT_EYE].setBackgroundResource(R.drawable.lookupdown);
-                imageView[RIGHT_EYE].setBackgroundResource(R.drawable.lookupdown);
-            }
+            imageView[LEFT_EYE].setBackgroundResource(R.drawable.lookupdown);
+            imageView[RIGHT_EYE].setBackgroundResource(R.drawable.lookupdown);
         }catch (Exception e){
             Log.e("Face", "resetColor: " + e.toString() );
         }
@@ -278,7 +267,68 @@ public class Face {
         }
 
         resetColor();
-    }//End of blink()...
+    }
+
+    public void listening(){
+        setFace(LISTENING);
+        try {
+            imageView[LEFT_EYE].setBackgroundResource(resource[LEFT_EYE]);
+            imageView[RIGHT_EYE].setBackgroundResource(resource[RIGHT_EYE]);
+            imageView[LEFT_EYE].setBackgroundResource(R.drawable.sad_eye0000);
+            imageView[RIGHT_EYE].setBackgroundResource(R.drawable.listening);
+        }catch (Exception e){
+            Log.e("Face", "resetColor: " + e.toString() );
+        }
+
+        try{
+            facialAnimation[LEFT_EYE] = (AnimationDrawable) imageView[LEFT_EYE].getBackground();
+            facialAnimation[RIGHT_EYE] = (AnimationDrawable) imageView[RIGHT_EYE].getBackground();
+
+            imageView[LEFT_EYE].setBackground(facialAnimation[LEFT_EYE]);
+            imageView[RIGHT_EYE].setBackground(facialAnimation[RIGHT_EYE]);
+
+            facialAnimation[LEFT_EYE].setOneShot(true);
+            facialAnimation[RIGHT_EYE].setOneShot(true);
+
+            facialAnimation[LEFT_EYE].setVisible(true, true);
+            facialAnimation[RIGHT_EYE].setVisible(true, true);
+
+            facialAnimation[LEFT_EYE].start();
+            facialAnimation[RIGHT_EYE].start();
+        }catch(Exception e){
+            Log.i("Face ->", "blink: Face did not blink");
+        }
+        resetColor();
+    }
+
+    public void setDrawnImage(){
+        try {
+            imageView[LEFT_EYE].setBackgroundResource(resource[LEFT_EYE]);
+            imageView[RIGHT_EYE].setBackgroundResource(resource[RIGHT_EYE]);
+            imageView[LEFT_EYE].setBackgroundResource(R.drawable.unicorn);
+            imageView[RIGHT_EYE].setBackgroundResource(R.drawable.lookleft);
+        }catch (Exception e){
+            Log.e("Face", "resetColor: " + e.toString() );
+        }
+        try{
+            facialAnimation[LEFT_EYE] = (AnimationDrawable) imageView[LEFT_EYE].getBackground();
+            facialAnimation[RIGHT_EYE] = (AnimationDrawable) imageView[RIGHT_EYE].getBackground();
+
+            imageView[LEFT_EYE].setBackground(facialAnimation[LEFT_EYE]);
+            imageView[RIGHT_EYE].setBackground(facialAnimation[RIGHT_EYE]);
+
+            facialAnimation[LEFT_EYE].setOneShot(true);
+            facialAnimation[RIGHT_EYE].setOneShot(true);
+
+            facialAnimation[LEFT_EYE].setVisible(true, true);
+            facialAnimation[RIGHT_EYE].setVisible(true, true);
+
+            facialAnimation[LEFT_EYE].start();
+            facialAnimation[RIGHT_EYE].start();
+        }catch(Exception e){
+            Log.i("Face ->", "blink: Face did not blink");
+        }
+    }
 
     /*startWaitingToBlink() simply puts the face
     * on a timer to periodically blink. The blinking
@@ -363,13 +413,6 @@ public class Face {
         }
 
         gazeThread.mHandler.sendEmptyMessage(gazeType);
-    }
-    public void changeToBlink(){
-        blink();
-    }
-
-    public void changeToLookUpAndDown(){
-        lookUpAndDown();
     }
 
     protected void setEyesToNoPupils(){
