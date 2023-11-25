@@ -22,7 +22,7 @@ import kotlin.Triple;
 public class TransitionStart extends TransitionDemo {
 
     enum DRAW {
-        NA, WAITING, UNICORN, UNICORN_AND_FACE, UNICORN_FLOWER, UNICORN_LOLLIPOPS, UNICORN_SANTA
+        NA, WAITING, UNICORN, UNICORN_FLOWER, UNICORN_LOLLIPOPS, UNICORN_SANTA
     }
     static class TemiOutput {
         public long waitTime;
@@ -51,96 +51,110 @@ public class TransitionStart extends TransitionDemo {
     private void insertGreeting(final Queue<TemiOutput> queue) {
         // *Child enters the room*
         // *Temi reacts by acknowledging the child by looking up and down and greeting”
-//        queue.add(new TemiOutput(0L,
-//                "Hi, my name is TEMI.",
-//                false, DRAW.NA
-//        ));
-//        queue.add(new TemiOutput(300L,
-//                "I will be your art friend today.",
-//                false, DRAW.NA
-//        ));
-//        queue.add(new TemiOutput(300L,
-//                "I love your outfit by the way.",
-//                false, DRAW.NA
-//        ));
-//        queue.add(new TemiOutput(300L,
-//                "What's your name?",
-//                true, DRAW.NA
-//        ));
-//        // Johnny: *Tells the name* Johnny.
-//        queue.add(new TemiOutput(2000L,
-//                "Johnny.",
-//                false, DRAW.NA
-//        ));
-//        queue.add(new TemiOutput(300L,
-//                "Did I get that right?",
-//                true, DRAW.NA
-//        ));
-//        // Johnny: yes!
-//        queue.add(new TemiOutput(2000L,
-//                "Johnny is such a lovely name!",
-//                false, DRAW.NA
-//        ));
-//        queue.add(new TemiOutput(300L,
-//                "Let’s make some art!",
-//                false, DRAW.NA
-//        ));
+        queue.add(new TemiOutput(5000L,
+                "Hi, my name is TEMI.",
+                false, DRAW.NA
+        ));
+        queue.add(new TemiOutput(300L,
+                "I will be your art friend today.",
+                false, DRAW.NA
+        ));
+        queue.add(new TemiOutput(300L,
+                "I love your outfit by the way.",
+                false, DRAW.NA
+        ));
+        queue.add(new TemiOutput(300L,
+                "What's your name?",
+                true, DRAW.NA
+        ));
+        // Johnny: *Tells the name* Johnny.
+        queue.add(new TemiOutput(3000L,
+                "Johnny.",
+                false, DRAW.NA
+        ));
+        queue.add(new TemiOutput(300L,
+                "Did I get that right?",
+                true, DRAW.NA
+        ));
+        // Johnny: yes!
+        queue.add(new TemiOutput(3000L,
+                "Johnny is such a lovely name!",
+                false, DRAW.NA
+        ));
+        queue.add(new TemiOutput(300L,
+                "Let’s make some art!",
+                false, DRAW.NA
+        ));
         queue.add(new TemiOutput(300L,
                 "What do you want to draw?",
                 true, DRAW.NA
         ));
         // Johnny: I want to draw a unicorn!
-        queue.add(new TemiOutput(2000L,
+        queue.add(new TemiOutput(3000L,
                 "Okay, give me a minute.",
                 false, DRAW.WAITING
         ));
-        queue.add(new TemiOutput(3000L,
-                "Here you go!",
+        queue.add(new TemiOutput(5000L,
+                "Done! Please tap my face to see the image!",
                 false, DRAW.UNICORN
         ));
         queue.add(new TemiOutput(3000L,
                 "What do you think?",
-                false, DRAW.UNICORN_AND_FACE
+                false, DRAW.NA
         ));
         // Johnny: It looks good. I want the unicorn to stand in the field of flowers.
-        queue.add(new TemiOutput(3000L,
-                "Oh thats a wonderful idea!",
+        queue.add(new TemiOutput(4000L,
+                "Oh that's a wonderful idea! Drawing now!",
                 false, DRAW.WAITING
         ));
         queue.add(new TemiOutput(3000L,
-                "How does this look?",
+                "Tap my face to see the updated image!",
                 false, DRAW.UNICORN_FLOWER
         ));
+        queue.add(new TemiOutput(3000L,
+                "Aren't those flowers lovely?",
+                false, DRAW.NA
+        ));
         // Johnny: Awesome!
+        queue.add(new TemiOutput(3000L,
+                "Do you want to see something even cooler?",
+                false, DRAW.WAITING
+        ));
         queue.add(new TemiOutput(2000L,
-                "Do you want to see something even cooler??",
+                "Let me sketch it real quick!",
+                false, DRAW.WAITING
+        ));
+        queue.add(new TemiOutput(3000L,
+                "Tap my face please!",
                 false, DRAW.UNICORN_LOLLIPOPS
         ));
-        // Johnny: *giggles* thats pretty cool!!
-        queue.add(new TemiOutput(2000L,
-                "Do you want me to change it back to a field of flowers?",
-                false, DRAW.UNICORN_LOLLIPOPS
+        queue.add(new TemiOutput(3000L,
+                "Cooler than flowers, huh?",
+                false, DRAW.NA
         ));
-        // Johnny: No, lollipops are better.
-        queue.add(new TemiOutput(2000L,
+        // Johnny: *giggles* that's pretty cool!! Lollipops are better.
+        queue.add(new TemiOutput(3000L,
                 "What if we have a unicorn Santa?",
                 false, DRAW.WAITING
         ));
         queue.add(new TemiOutput(3000L,
-                "Wouldn’t that be fun!",
+                "Wouldn’t that be fun! Tap! tap!",
                 false, DRAW.UNICORN_SANTA
         ));
-
+        queue.add(new TemiOutput(2000L,
+                "Hahahahaha!",
+                false, DRAW.NA
+        ));
 
     }
 
     private void insertTellJoke(final Queue<TemiOutput> queue) {
-        queue.add(new TemiOutput(0L,
+        queue.add(new TemiOutput(5000L,
                 "Johnny, do you like jokes?",
                 true, DRAW.NA
         ));
         // Johnny: yes!
-        queue.add(new TemiOutput(2000L,
+        queue.add(new TemiOutput(3000L,
                 "Why can’t you tell an egg a joke?",
                 false, DRAW.NA
         ));
@@ -151,8 +165,8 @@ public class TransitionStart extends TransitionDemo {
     }
 
     private void insertAskRandomQuestion(final Queue<TemiOutput> queue) {
-        // Johnny: Hey Temi, whats your favourite color?
-        queue.add(new TemiOutput(0L,
+        // Johnny: I want to give this unicorn maine a color. Whats your favourite color?
+        queue.add(new TemiOutput(5000L,
                 "I don’t have one favourite color, I love all the colors.",
                 false, DRAW.NA
         ));
@@ -186,10 +200,9 @@ public class TransitionStart extends TransitionDemo {
                 final Queue<TemiOutput> queue = new LinkedList<>();
 
                 // interaction model goes below
-                insertGreeting(queue);
+//                insertGreeting(queue);
 //                insertTellJoke(queue);
-//                insertAskRandomQuestion(queue);
-//                insertArtRevision(queue);
+                insertAskRandomQuestion(queue);
 
                 robot.addTtsListener(ttsRequest -> {
                     if (ttsRequest.getStatus() == TtsRequest.Status.COMPLETED) {
@@ -204,9 +217,15 @@ public class TransitionStart extends TransitionDemo {
                                 case UNICORN:
                                     startActivity(new Intent(TransitionStart.this, TransitionUnicorn.class));
                                     break;
-//                                case UNICORN_AND_FACE:
-//                                    startActivity(new Intent(TransitionStart.this, TransitionToUpperLeftCorner.class));
-//                                    break;
+                                case UNICORN_FLOWER:
+                                    startActivity(new Intent(TransitionStart.this, TransitionUnicornFlower.class));
+                                    break;
+                                case UNICORN_LOLLIPOPS:
+                                    startActivity(new Intent(TransitionStart.this, TransitionUnicornLollipops.class));
+                                    break;
+                                case UNICORN_SANTA:
+                                    startActivity(new Intent(TransitionStart.this, TransitionUnicornSanta.class));
+                                    break;
                                 case NA:
                                     break;
                             }
@@ -221,6 +240,11 @@ public class TransitionStart extends TransitionDemo {
                 });
 
                 TemiOutput first = queue.remove();
+                try { // waiting
+                    Thread.sleep(first.waitTime);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
                 robot.speak(TtsRequest.create(first.speech, false));
 
             }

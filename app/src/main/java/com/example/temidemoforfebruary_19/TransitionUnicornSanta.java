@@ -12,12 +12,12 @@ import android.view.View;
 
 import com.robotemi.sdk.Robot;
 
-public class TransitionUnicorn extends TransitionDemo{
+public class TransitionUnicornSanta extends TransitionDemo{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.unicorn_face);
+        setContentView(R.layout.unicorn_santa_face);
         verifyStoragePermissions(this);
         robot = Robot.getInstance(); // get an instance of the robot in order to begin using its features.
 
@@ -50,7 +50,7 @@ public class TransitionUnicorn extends TransitionDemo{
 
                 }
                 else if (state == States.END){
-                    startActivity(new Intent(TransitionUnicorn.this, TransitionStart.class));
+                    startActivity(new Intent(TransitionUnicornSanta.this, TransitionStart.class));
                     finish();
                 }
 

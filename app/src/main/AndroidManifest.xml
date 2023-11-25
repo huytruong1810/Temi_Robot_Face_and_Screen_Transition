@@ -24,6 +24,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".TransitionToUpperLeftCorner"/>
+        <activity android:name=".TransitionUnicorn"/>
+        <activity android:name=".TransitionUnicornFlower"/>
+        <activity android:name=".TransitionUnicornLollipops"/>
+        <activity android:name=".TransitionUnicornSanta"/>
         <activity android:name=".TransitionFade"/>
         <activity android:name=".TransitionShrink"/>
         <activity android:name=".TransitionSwipe"/>
