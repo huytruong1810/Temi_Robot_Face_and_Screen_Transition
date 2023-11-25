@@ -269,67 +269,6 @@ public class Face {
         resetColor();
     }
 
-    public void listening(){
-        setFace(LISTENING);
-        try {
-            imageView[LEFT_EYE].setBackgroundResource(resource[LEFT_EYE]);
-            imageView[RIGHT_EYE].setBackgroundResource(resource[RIGHT_EYE]);
-            imageView[LEFT_EYE].setBackgroundResource(R.drawable.sad_eye0000);
-            imageView[RIGHT_EYE].setBackgroundResource(R.drawable.listening);
-        }catch (Exception e){
-            Log.e("Face", "resetColor: " + e.toString() );
-        }
-
-        try{
-            facialAnimation[LEFT_EYE] = (AnimationDrawable) imageView[LEFT_EYE].getBackground();
-            facialAnimation[RIGHT_EYE] = (AnimationDrawable) imageView[RIGHT_EYE].getBackground();
-
-            imageView[LEFT_EYE].setBackground(facialAnimation[LEFT_EYE]);
-            imageView[RIGHT_EYE].setBackground(facialAnimation[RIGHT_EYE]);
-
-            facialAnimation[LEFT_EYE].setOneShot(true);
-            facialAnimation[RIGHT_EYE].setOneShot(true);
-
-            facialAnimation[LEFT_EYE].setVisible(true, true);
-            facialAnimation[RIGHT_EYE].setVisible(true, true);
-
-            facialAnimation[LEFT_EYE].start();
-            facialAnimation[RIGHT_EYE].start();
-        }catch(Exception e){
-            Log.i("Face ->", "blink: Face did not blink");
-        }
-        resetColor();
-    }
-
-    public void setDrawnImage(){
-        try {
-            imageView[LEFT_EYE].setBackgroundResource(resource[LEFT_EYE]);
-            imageView[RIGHT_EYE].setBackgroundResource(resource[RIGHT_EYE]);
-            imageView[LEFT_EYE].setBackgroundResource(R.drawable.unicorn);
-            imageView[RIGHT_EYE].setBackgroundResource(R.drawable.lookleft);
-        }catch (Exception e){
-            Log.e("Face", "resetColor: " + e.toString() );
-        }
-        try{
-            facialAnimation[LEFT_EYE] = (AnimationDrawable) imageView[LEFT_EYE].getBackground();
-            facialAnimation[RIGHT_EYE] = (AnimationDrawable) imageView[RIGHT_EYE].getBackground();
-
-            imageView[LEFT_EYE].setBackground(facialAnimation[LEFT_EYE]);
-            imageView[RIGHT_EYE].setBackground(facialAnimation[RIGHT_EYE]);
-
-            facialAnimation[LEFT_EYE].setOneShot(true);
-            facialAnimation[RIGHT_EYE].setOneShot(true);
-
-            facialAnimation[LEFT_EYE].setVisible(true, true);
-            facialAnimation[RIGHT_EYE].setVisible(true, true);
-
-            facialAnimation[LEFT_EYE].start();
-            facialAnimation[RIGHT_EYE].start();
-        }catch(Exception e){
-            Log.i("Face ->", "blink: Face did not blink");
-        }
-    }
-
     /*startWaitingToBlink() simply puts the face
     * on a timer to periodically blink. The blinking
     * time will later be changed so that the rate of
